@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var PORT = process.env.PORT || 3005; // puerto 3000 lo usa api back
 require('dotenv').config();
 
-// Health check
+// ─── Health check ──────────────────────────────────────────────────────────────
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', db: mongoose.connection.readyState === 1 ? 'conectado' : 'desconectado' });
 });
@@ -28,5 +28,12 @@ async function startServer() {
 }
 
 startServer();
+
+// ─── Middleware ───────────────────────────────────────────────────────────────
+app.use(express.json());
+
+// ─── Rutas ─────────────────────────────────────────────────────────────────
+const reporteRoute = require('./routes/reporteRoute');
+app.use('/reportes', reporteRoute);
 
 module.exports = app;
