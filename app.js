@@ -31,7 +31,7 @@ mongoose.connect(process.env.DB_URL)
   .then(() => {
     console.log(`--- Conexión exitosa a MongoDB Atlas ---`);
     app.listen(PORT, () => {
-      console.log(`✅ Servicio Terreno escuchando en puerto ${PORT}`);
+      console.log(`✅ Servicio Terreno escuchando en puerto ${PORT}: http://localhost:${PORT}/`);
     });
   })
   .catch(err => {
