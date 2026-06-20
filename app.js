@@ -44,3 +44,5 @@ mongoose.connect(DB_URL)
     console.error(`❌ Error al conectar a MongoDB: ${err.message}`);
     process.exit(1);
   });
+
+module.exports = app;
