@@ -12,6 +12,7 @@ const reporteRoute = require('./routes/reporteRoute');
 const app = express();
 
 const PORT = process.env.PORT || 3003;
+const DB_URL = process.env.DB_URL || process.env.MONGODB_URI;
 
 // Middlewares de seguridad
 app.use(helmet());
@@ -27,7 +28,12 @@ app.get('/health', (req, res) => {
 // Rutas (usamos la raíz para que conecte bien con el API Gateway)
 app.use('/', reporteRoute);
 
-mongoose.connect(process.env.DB_URL)
+if (!DB_URL) {
+  console.error('❌ Falta la variable de entorno DB_URL o MONGODB_URI');
+  process.exit(1);
+}
+
+mongoose.connect(DB_URL)
   .then(() => {
     console.log(`--- Conexión exitosa a MongoDB Atlas ---`);
     app.listen(PORT, () => {
@@ -38,3 +44,5 @@ mongoose.connect(process.env.DB_URL)
     console.error(`❌ Error al conectar a MongoDB: ${err.message}`);
     process.exit(1);
   });
+
+module.exports = app;
